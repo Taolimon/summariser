@@ -10,8 +10,19 @@ def main():
 
     freq_table = {}
 
+    sentences = sent_tokenize(input_text)
+
     rankWords(words, stop_words, freq_table)
-    rankSentences(input_text, freq_table)
+    
+    # Get the value of each sentence using the frequency table
+    sentence_value = rankSentences(freq_table, sentences)
+
+    # Use the average frequency as a threshold
+    average = defineAverageValue(sentence_value)
+
+    # Generate summary
+    summary = getSummary(sentences, sentence_value, average)
+
 
 
 def rankWords(words, stop_words, freq_table):
@@ -26,9 +37,8 @@ def rankWords(words, stop_words, freq_table):
         else:
             freq_table[word] = 1
 
-def rankSentences(text, freq_table):
+def rankSentences(freq_table, sentences):
     # Rank the sentences' relevance
-    sentences = sent_tokenize(text)
     sentence_value = {}
 
     for sentence in sentences:
@@ -38,6 +48,8 @@ def rankSentences(text, freq_table):
                     sentence_value[sentence] += freq
                 else:
                     sentence_value[sentence] = freq
+    
+    return sentence_value
                 
 def defineAverageValue(sen_val):
     sum_values = 0
@@ -46,6 +58,16 @@ def defineAverageValue(sen_val):
 
     average = int(sum_values / len(sen_val))
     return average
+
+def getSummary(sents, sen_val, avg):
+    summary = """ """
+
+    for sen in sents:
+        if sen in sen_val and sen_val[sen] > avg:
+            summary += " " + sen
+
+    return summary
+
 
 
 
