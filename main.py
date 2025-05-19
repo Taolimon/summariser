@@ -4,7 +4,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize, sent_tokenize
 
 def main(): 
-    input_text = """ """
+    input_text = getInputText()
     stop_words = set(stopwords.words("english"))
     words = word_tokenize(input_text)
 
@@ -23,7 +23,11 @@ def main():
     # Generate summary
     summary = getSummary(sentences, sentence_value, average)
 
+    showSummary(summary)
 
+def getInputText():
+    text = input("Input text for summary: ")
+    return text
 
 def rankWords(words, stop_words, freq_table):
     # Rank the number of words in the given input text
@@ -68,6 +72,7 @@ def getSummary(sents, sen_val, avg):
 
     return summary
 
-
+def showSummary(summary):
+    print(summary)
 
 
