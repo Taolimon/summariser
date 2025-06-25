@@ -26,7 +26,14 @@ def main():
     showSummary(summary)
 
 def getInputText():
-    text = input("Input text for summary: ")
+    text = """ """
+    itext = " "
+    print("Enter input text: ")
+    while True:
+        itext = input()
+        if itext == "END":
+            break
+        text += itext
     return text
 
 def rankWords(words, stop_words, freq_table):
@@ -41,17 +48,17 @@ def rankWords(words, stop_words, freq_table):
         else:
             freq_table[word] = 1
 
-def rankSentences(freq_table, sentences):
+def rankSentences(freq_table=dict, sentences=[str]):
     # Rank the sentences' relevance
     sentence_value = {}
 
     for sentence in sentences:
-        for word, freq in freq_table:
+        for word in freq_table:
             if word in sentence.lower():
                 if sentence in sentence_value:
-                    sentence_value[sentence] += freq
+                    sentence_value[sentence] += freq_table[word]
                 else:
-                    sentence_value[sentence] = freq
+                    sentence_value[sentence] = freq_table[word]
     
     return sentence_value
                 
@@ -64,15 +71,15 @@ def defineAverageValue(sen_val):
     return average
 
 def getSummary(sents, sen_val, avg):
-    summary = """ """
-
+    summary = """"""
+ 
     for sen in sents:
-        if sen in sen_val and sen_val[sen] > avg:
+        if sen in sen_val and sen_val[sen] > (1.2 * avg):
             summary += " " + sen
 
     return summary
 
 def showSummary(summary):
-    print(summary)
+    print("\nSummary:\n" + summary)
 
-
+main()
